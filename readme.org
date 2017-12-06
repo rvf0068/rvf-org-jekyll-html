@@ -1,0 +1,2 @@
+This is a package where I will include configurations useful to
+produce a Jekyll site suitable for a math class.
