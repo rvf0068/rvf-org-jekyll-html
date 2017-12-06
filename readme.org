@@ -1,2 +1,29 @@
-This is a package where I will include configurations useful to
-produce a Jekyll site suitable for a math class.
+* Description
+  This is a package where I will include configurations useful to
+  produce a Jekyll site suitable for a math course, having =org= files
+  as source.
+* Idea
+  All files relevant to the course are kept in a folder. There are two
+  special subfolders: =clases= and =inicio=. In the folder =clases=
+  there is a presentation file for each class, in =org= format. One
+  also includes there image files, but generated inside the org file
+  or standalone pictures. The name =options.org= is special, and it is
+  recommended to be used for Beamer configurations common to all
+  presentations, so that each presentation file includes it.
+
+  The folder =inicio= contains =org= files that will correspond to
+  pages in the site.
+
+  When running =org-publish=, each =org= file will be converted to a
+  beamer presentation and moved to the =pdfs= subdirectory of the
+  jekyll project, and also converted to =html= format and included in
+  the =_posts= subdirectory. Images files inside =clases= are moved to
+  the subfolder =images= of the jekyll project.
+* Usage
+  The user should customize the variables
+  =org-jekyll-html-base-source-directory= and =
+  org-jekyll-html-base-jekyll-directory=. After that, include
+  something like: =(org-jekyll-html-add-project '("algoritmos"
+  "2017cAlgoritmosLIMA"))= in their init file, to add the project to
+  =org-publish-project-alist=.
+

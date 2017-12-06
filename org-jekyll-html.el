@@ -1,3 +1,60 @@
+(defvar org-jekyll-html-base-source-directory
+  "~/Dropbox/TeXflies/ClasesPachuca/"
+  "Base directory for courses source files")
+
+(defvar org-jekyll-html-base-jekyll-directory
+  "~/Dropbox/paginas/"
+  "Base directory for jekyll sites")
+
+(defun org-jekyll-html-add-project (my-pair)
+  (let ((code (car my-pair))
+	(default-directory (nth 1 my-pair)))
+  (setq org-publish-project-alist
+	(nconc org-publish-project-alist
+	       `((,code . (:components (,(concat code "-clases")
+					,(concat code "-inicio")
+					,(concat code "-pdf")
+					,(concat code "-extra"))))
+		 (,(concat code "-clases")
+		  :base-directory ,(concat org-jekyll-html-base-source-directory
+					   default-directory
+					   "/clases")
+		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
+						 code
+						 "/_posts")
+		  :publishing-function org-jekyll-html-publish-to-jekyll
+		  :body-only t
+		  :base-extension "org"
+		  :exclude "options.org" )
+		 (,(concat code "-inicio")
+		  :base-directory ,(concat org-jekyll-html-base-source-directory
+					   default-directory
+					   "/inicio")
+		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
+						 code)
+		  :publishing-function org-jekyll-html-publish-to-jekyll
+		  :body-only t
+		  :base-extension "org")
+		 (,(concat code "-pdf")
+		  :base-directory ,(concat org-jekyll-html-base-source-directory
+					   default-directory
+					   "/clases")
+		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
+						 code
+						 "/pdfs")
+		  :publishing-function org-beamer-publish-to-pdf
+		  :base-extension "org"
+		  :exclude "options.org")
+		 (,(concat code "-extra")
+		  :base-directory ,(concat org-jekyll-html-base-source-directory
+					   default-directory
+					   "/clases")
+		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
+						 code
+						 "/images")
+		  :publishing-function org-publish-attachment
+		  :base-extension "png\\|jpg\\|jpeg" ))))))
+
 (org-export-define-derived-backend 'jekyll-html 'html
   :translate-alist '((latex-environment . org-jekyll-html-latex-environment)
 		     ;; (latex-fragment . org-jekyll-latex-html-fragment)
@@ -98,3 +155,5 @@ channel."
 
 (defun org-jekyll-html-publish-to-jekyll (plist filename pub-dir)
   (org-publish-org-to 'jekyll-html filename ".html" plist pub-dir))
+
+(provide 'org-jekyll-html)
