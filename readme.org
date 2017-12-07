@@ -21,8 +21,8 @@
   the subfolder =images= of the jekyll project.
 * Usage
   The user should customize the variables
-  =org-jekyll-html-base-source-directory= and =
-  org-jekyll-html-base-jekyll-directory=. After that, include
+  =org-jekyll-html-base-source-directory= and
+  =org-jekyll-html-base-jekyll-directory=. After that, include
   something like: =(org-jekyll-html-add-project '("algoritmos"
   "2017cAlgoritmosLIMA"))= in their init file, to add the project to
   =org-publish-project-alist=.
