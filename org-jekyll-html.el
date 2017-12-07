@@ -1,12 +1,12 @@
 (require 'ox-publish)
 
-(defvar org-jekyll-html-base-source-directory
-  "~/Dropbox/TeXflies/ClasesPachuca/"
-  "Base directory for courses source files")
+(defcustom org-jekyll-html-base-source-directory "~/Dropbox/Clases/"
+       "Base directory for courses source files"
+       :type '(string))
 
-(defvar org-jekyll-html-base-jekyll-directory
-  "~/Dropbox/paginas/"
-  "Base directory for jekyll sites")
+(defcustom org-jekyll-html-base-jekyll-directory "~/Dropbox/pages/"
+       "Base directory for jekyll sites"
+       :type '(string))
 
 (defun org-jekyll-html-add-project (my-pair)
   (let ((code (car my-pair))
