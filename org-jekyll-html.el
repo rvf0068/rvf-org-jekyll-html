@@ -1,3 +1,5 @@
+(require 'ox-publish)
+
 (defvar org-jekyll-html-base-source-directory
   "~/Dropbox/TeXflies/ClasesPachuca/"
   "Base directory for courses source files")
