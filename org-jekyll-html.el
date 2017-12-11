@@ -77,7 +77,7 @@ channel."
          "<div class=\"sage\"><script type=\"text/x-sage\">\n%s</script></div>\n"
          value)
       (format
-       "{%% highlight %s %%}\n %s{%% endhighlight %%}"
+       "{%% highlight %s %%}\n%s{%% endhighlight %%}"
        lang value))))
 
 (defun org-jekyll-html-latex-environment (latex-environment contents info)
