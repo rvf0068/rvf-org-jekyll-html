@@ -47,7 +47,7 @@
 		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
 						 code
 						 "/pdfs")
-		  :publishing-function org-beamer-publish-to-pdf
+		  :publishing-function org-jekyll-html-publish-to-pdf
 		  :base-extension "org"
 		  :exclude "options.org")
 		 (,(concat code "-extra")
@@ -142,8 +142,42 @@ channel."
 
 (require 'ox-beamer)
 
-(org-export-define-derived-backend 'beamer-academic 'beamer
-  :translate-alist '((inner-template . org-beamer-academic-template)))
+(org-export-define-derived-backend 'beamer-math-class 'beamer
+  :translate-alist '((inner-template . org-jekyll-html-math-class-template)))
 
+(defun org-jekyll-html-math-class-template (contents info)
+  (s-with contents
+    (replace-regexp-in-string "\\[:B_corollary:\\]:" "Corolario")
+    (replace-regexp-in-string "\\[:B_definition:\\]:" "Definición")
+    (replace-regexp-in-string "\\[:B_example:\\]:" "Ejemplo")
+    (replace-regexp-in-string "\\[:B_lemma:\\]" "Lema")
+    (replace-regexp-in-string "\\[:B_proposition:\\]" "Proposición")
+    (replace-regexp-in-string "\\[:B_theorem:\\]" "Teorema")
+    (replace-regexp-in-string ":BMCOL:" "")
+    (replace-regexp-in-string ":B\\\\(_{\\\\text{block}}\\\\)" "")
+    (replace-regexp-in-string ":B<sub>column</sub><br />" "")
+    (replace-regexp-in-string ":B<sub>ignoreheading</sub>:<br />" "")))
+
+(defun org-jekyll-html-export-as-beamer
+  (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (org-export-to-buffer 'beamer-math-class "*Org BEAMER-MATH-CLASS Export*"
+    async subtreep visible-only body-only ext-plist (lambda () (LaTeX-mode))))
+
+;;; modified from ox-beamer.el
+
+(defun org-jekyll-html-publish-to-latex (plist filename pub-dir)
+  "Publish an Org file to a Beamer presentation (LaTeX)."
+  (org-publish-org-to 'beamer-math-class filename ".tex" plist pub-dir))
+
+(defun org-jekyll-html-publish-to-pdf (plist filename pub-dir)
+  "Publish an Org file to a Beamer presentation (PDF, via LaTeX)."
+  (org-publish-attachment
+   plist
+   (let ((default-directory (file-name-directory filename)))
+     (org-latex-compile
+      (org-publish-org-to
+       'beamer-math-class filename ".tex" plist (file-name-directory filename))))
+   pub-dir))
 
 (provide 'org-jekyll-html)
