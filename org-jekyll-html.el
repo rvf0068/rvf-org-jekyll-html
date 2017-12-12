@@ -115,18 +115,18 @@ channel."
 	 (layout (plist-get info :layout))
 	 (frontmatter
 	  "---\nlayout: %s\ntitle: %s\ndate: %s %s\ncomments: true\npublished: %s\ncategories: %s\n---\n\n"))
-    (s-with contents
-      (replace-regexp-in-string "#+ $" "")
-      (replace-regexp-in-string
-       "<img src=\\(.\\)\\(.*\\)\.\\(png\\|jpg\\|jpeg\\)"
-       "<img src=\\1{{ site.baseurl }}/images/\\2.\\3")
-      (replace-regexp-in-string ":B<sub>corollary</sub>:" "Corolario")
-      (replace-regexp-in-string ":B<sub>theorem</sub>:" "Teorema")
-      (replace-regexp-in-string ":B<sub>lemma</sub>:" "Lema")
-      (replace-regexp-in-string ":BMCOL:" "")
-      (replace-regexp-in-string ":B<sub>block</sub>" "")
-      (replace-regexp-in-string ":B<sub>column</sub><br />" "")
-      (replace-regexp-in-string ":B<sub>ignoreheading</sub>:<br />" ""))
+    (setq contents
+	  (s-with contents
+	    (replace-regexp-in-string
+	     "<img src=\\(.\\)\\(.*\\)\.\\(png\\|jpg\\|jpeg\\)"
+	     "<img src=\\1{{ site.baseurl }}/images/\\2.\\3")
+	    (replace-regexp-in-string ":B<sub>corollary</sub>:" "Corolario")
+	    (replace-regexp-in-string ":B<sub>theorem</sub>:" "Teorema")
+	    (replace-regexp-in-string ":B<sub>lemma</sub>:" "Lema")
+	    (replace-regexp-in-string ":BMCOL:" "")
+	    (replace-regexp-in-string ":B<sub>block</sub>" "")
+	    (replace-regexp-in-string ":B<sub>column</sub><br />" "")
+	    (replace-regexp-in-string ":B<sub>ignoreheading</sub>:<br />" "")))
     (concat (format frontmatter layout title date time published keywords) contents)))
 
 (defun org-jekyll-html-export-as-jekyll
