@@ -1,6 +1,7 @@
 ;;; code for configuring the org publish project
 
 (require 'ox-publish)
+(require 's)
 
 (defcustom org-jekyll-html-base-source-directory "~/Dropbox/Clases/"
        "Base directory for courses source files"
@@ -106,53 +107,27 @@ channel."
 ;; TODO: Deal with character "
 
 (defun org-jekyll-html-template (contents info)
-  (let* ((title (or (car (plist-get info :title)) ""))
+  (let ((title (or (car (plist-get info :title)) ""))
 	 (date (or (car (plist-get info :date)) ""))
 	 (time "")
 	 (keywords (or (plist-get info :keywords) ""))
 	 (published (plist-get info :published))
 	 (layout (plist-get info :layout))
-	 (body (replace-regexp-in-string "#+ $" "" contents))
-	 (images (replace-regexp-in-string
-		  "<img src=\\(.\\)\\(.*\\)\.\\(png\\|jpg\\|jpeg\\)"
-		  "<img src=\\1{{ site.baseurl }}/images/\\2.\\3"
-		  body))
-	 (corollaries (replace-regexp-in-string
-		       ":B<sub>corollary</sub>:"
-		       "Corolario"
-		       images))
-	 (theorems (replace-regexp-in-string
-		       ":B<sub>theorem</sub>:"
-		       "Teorema"
-		       corollaries))
-	 (lemmas (replace-regexp-in-string
-		       ":B<sub>lemma</sub>:"
-		       "Lema"
-		       theorems))
-	 (columns (replace-regexp-in-string
-		   ":BMCOL:"
-		   ""
-		   lemmas))
-	 (blocks (replace-regexp-in-string
-		   ":B<sub>block</sub>"
-		   ""
-		   columns))
-	 (morecols (replace-regexp-in-string
-		   ":B<sub>column</sub><br />"
-		   ""
-		   blocks))
-	 (ignoreh (replace-regexp-in-string
-		    ":B<sub>ignoreheading</sub>:<br />"
-		    ""
-		    morecols))
-	 (lists (replace-regexp-in-string
-		 "\n\n    -"
-		 "
-    -"
-		 ignoreh))
 	 (frontmatter
 	  "---\nlayout: %s\ntitle: %s\ndate: %s %s\ncomments: true\npublished: %s\ncategories: %s\n---\n\n"))
-    (concat (format frontmatter layout title date time published keywords) lists)))
+    (s-with contents
+      (replace-regexp-in-string "#+ $" "")
+      (replace-regexp-in-string
+       "<img src=\\(.\\)\\(.*\\)\.\\(png\\|jpg\\|jpeg\\)"
+       "<img src=\\1{{ site.baseurl }}/images/\\2.\\3")
+      (replace-regexp-in-string ":B<sub>corollary</sub>:" "Corolario")
+      (replace-regexp-in-string ":B<sub>theorem</sub>:" "Teorema")
+      (replace-regexp-in-string ":B<sub>lemma</sub>:" "Lema")
+      (replace-regexp-in-string ":BMCOL:" "")
+      (replace-regexp-in-string ":B<sub>block</sub>" "")
+      (replace-regexp-in-string ":B<sub>column</sub><br />" "")
+      (replace-regexp-in-string ":B<sub>ignoreheading</sub>:<br />" ""))
+    (concat (format frontmatter layout title date time published keywords) contents)))
 
 (defun org-jekyll-html-export-as-jekyll
   (&optional async subtreep visible-only body-only ext-plist)
