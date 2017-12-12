@@ -26,4 +26,7 @@
   something like: =(org-jekyll-html-add-project '("algoritmos"
   "2017cAlgoritmosLIMA"))= in their init file, to add the project to
   =org-publish-project-alist=.
-
+* Todo
+  - Define also a backend, derived from beamer, for now with the only
+    purpose of deleting the tags that become title of a section
+    intended to have no title.
