@@ -140,6 +140,8 @@ channel."
 
 ;;; derived beamer backend
 
+(require 'ox-beamer)
+
 (org-export-define-derived-backend 'beamer-academic 'beamer
   :translate-alist '((inner-template . org-beamer-academic-template)))
 
