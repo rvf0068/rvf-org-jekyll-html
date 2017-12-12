@@ -1,3 +1,5 @@
+;;; code for configuring the org publish project
+
 (require 'ox-publish)
 
 (defcustom org-jekyll-html-base-source-directory "~/Dropbox/Clases/"
@@ -56,6 +58,9 @@
 						 "/images")
 		  :publishing-function org-publish-attachment
 		  :base-extension "png\\|jpg\\|jpeg" ))))))
+
+
+;;; derived jekyll backend
 
 (org-export-define-derived-backend 'jekyll-html 'html
   :translate-alist '((latex-environment . org-jekyll-html-latex-environment)
@@ -157,5 +162,11 @@ channel."
 
 (defun org-jekyll-html-publish-to-jekyll (plist filename pub-dir)
   (org-publish-org-to 'jekyll-html filename ".html" plist pub-dir))
+
+;;; derived beamer backend
+
+(org-export-define-derived-backend 'beamer-academic 'beamer
+  :translate-alist '((inner-template . org-beamer-academic-template)))
+
 
 (provide 'org-jekyll-html)
