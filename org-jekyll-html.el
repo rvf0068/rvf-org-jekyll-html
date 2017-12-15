@@ -121,8 +121,9 @@ channel."
 	     "<img src=\\(.\\)\\(.*\\)\.\\(png\\|jpg\\|jpeg\\)"
 	     "<img src=\\1{{ site.baseurl }}/images/\\2.\\3")
 	    (replace-regexp-in-string ":B<sub>corollary</sub>:" "Corolario")
-	    (replace-regexp-in-string ":B<sub>theorem</sub>:" "Teorema")
+	    (replace-regexp-in-string ":B<sub>definition</sub>:" "Definición")
 	    (replace-regexp-in-string ":B<sub>lemma</sub>:" "Lema")
+	    (replace-regexp-in-string ":B<sub>theorem</sub>:" "Teorema")
 	    (replace-regexp-in-string ":BMCOL:" "")
 	    (replace-regexp-in-string ":B<sub>block</sub>" "")
 	    (replace-regexp-in-string ":B<sub>column</sub><br />" "")
