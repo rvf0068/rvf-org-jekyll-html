@@ -11,6 +11,10 @@
        "Base directory for jekyll sites"
        :type '(string))
 
+(defcustom org-jekyll-html-posts-directory "posts"
+       "Name of the directory where posts are added. For jekyll it is _posts"
+       :type '(string))
+
 (defun org-jekyll-html-add-project (my-pair)
   (let ((code (car my-pair))
 	(default-directory (nth 1 my-pair)))
@@ -26,7 +30,8 @@
 					   "/clases")
 		  :publishing-directory ,(concat org-jekyll-html-base-jekyll-directory
 						 code
-						 "/_posts")
+						 "/"
+						 org-jekyll-html-posts-directory)
 		  :publishing-function org-jekyll-html-publish-to-jekyll
 		  :body-only t
 		  :base-extension "org"
